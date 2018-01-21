@@ -253,4 +253,3 @@ class FSM ():
             raise RuntimeWarning ('multiple startstates')
         if len (end_states) == 0:
             raise RuntimeWarning ('missing end state')
-
