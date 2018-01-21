@@ -133,7 +133,13 @@ class CLI ():
                     self.lives -= 1
                     continue
 
-                jim = self.load (filename = filename)
+                try:
+                    jim = self.load (filename = filename)
+                except RuntimeWarning as w:
+                    print ('ERROR: invalid data: <{}>\n'.format (w))
+                    self.lives -= 1
+                    continue
+
                 self.loaded_from.append (filename)
                 loaded_ok = False
 
