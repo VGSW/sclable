@@ -68,6 +68,15 @@ class Test_Coffee (unittest.TestCase):
                 { 'from' : 'C', 'to' : 'A' },
             ])
 
+    def test_state_ordering_021 (self):
+        # missing end states
+        with self.assertRaises (RuntimeWarning):
+            FSM (transitions = [
+                { 'from' : 'A', 'to' : 'B' },
+                { 'from' : 'B', 'to' : 'C' },
+                { 'from' : 'C', 'to' : 'B' },
+            ])
+
     def test_state_ordering_03 (self):
         # multiple startstates
         with self.assertRaises (RuntimeWarning):

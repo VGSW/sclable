@@ -191,7 +191,7 @@ class FSM ():
                 next_state = to_state,
             ))
 
-            self._check_fsm ()
+        self._check_fsm ()
 
     def workflow (self):
         """ create and return a list representing the workflow
@@ -240,9 +240,12 @@ class FSM ():
         )
 
     def _check_fsm (self):
+        """ a valid FSM must have exactly one start state and
+            one or more end states, YMMV
+        """
 
         start_states = [s for s in self.states if s.is_start]
-        end_states = [s for s in self.states if s.is_start]
+        end_states = [s for s in self.states if s.is_end]
 
         if len (start_states) == 0:
             raise RuntimeWarning ('missing start state')
@@ -250,3 +253,4 @@ class FSM ():
             raise RuntimeWarning ('multiple startstates')
         if len (end_states) == 0:
             raise RuntimeWarning ('missing end state')
+
