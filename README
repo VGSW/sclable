@@ -14,3 +14,10 @@ Data must  be given in YAML  files with 'transitions' and  'issues' as top-level
 keys which can be given in separate files  or combined in a single file. See the
 supplied .yml files  for examples (the examples are also  included in the Docker
 image).
+
+A quick session could look like this:
+
+>> load fsm.yml
+>> load issues1.yml
+>> print
+>> print fsm
