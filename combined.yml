@@ -1,0 +1,42 @@
+transitions:
+
+    - from: to do
+      to: doing
+
+    - from: to do
+      to: on hold
+
+    - from: doing
+      to: done
+
+    - from: doing
+      to: failed
+
+    - from: doing
+      to: on hold
+
+    - from: on hold
+      to: doing
+
+issues:
+
+    - title: Get new coffee machine
+      state: done
+
+    - title: (Re)fill beans
+      state: doing
+
+    - title: Fill water tank
+      state: to do
+
+    - title: Make coffee
+      state: on hold
+
+    - title: Make more coffee
+      state: to do
+
+    - title: Turn old coffee machine off and on again
+      state: failed
+
+    - title: Repair old coffee machine
+      state: failed

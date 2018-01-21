@@ -1,0 +1,22 @@
+issues:
+
+    - title: Get new coffee machine
+      state: done
+
+    - title: (Re)fill beans
+      state: failed
+
+    - title: Fill water tank
+      state: done
+
+    - title: Make coffee
+      state: done
+
+    - title: Make more coffee
+      state: done
+
+    - title: Turn old coffee machine off and on again
+      state: failed
+
+    - title: Repair old coffee machine
+      state: failed

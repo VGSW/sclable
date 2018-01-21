@@ -1,0 +1,19 @@
+transitions:
+
+    - from: to do
+      to: doing
+
+    - from: to do
+      to: on hold
+
+    - from: doing
+      to: done
+
+    - from: doing
+      to: failed
+
+    - from: doing
+      to: on hold
+
+    - from: on hold
+      to: doing
