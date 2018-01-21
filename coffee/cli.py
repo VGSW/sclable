@@ -99,7 +99,7 @@ class CLI ():
         print ('\nAvailable commands')
         print ('  load <filename> ... load the given yaml file')
         print ('  !<command> ........ run <command> in a shell')
-        print ('  print ............. print a loaded data')
+        print ('  print ............. print loaded data')
         print ('  print fsm ......... print the FSM only')
         print ('  clear ............. clear data')
         print ('  quit .............. quit')
