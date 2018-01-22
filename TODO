@@ -1,6 +1,7 @@
 "coffee" is obviously no fitting name :-(
 check for validity of input (yaml.load() eg. returns a long string for non-yaml files)
 document supposed input file structure
+refactor cli-prompt code (that has become quite ugly)
 
 re-write in PHP :-)
 or, just a thought, how about prolog ? querying big datasets could be interesting.

@@ -6,9 +6,22 @@ Doing it all in one step:
 
     make clean test build run
 
-Alternatively the command line interface can be executed directly too:
+Alternatively the command line interface  can be executed directly too:
 
     python -m coffee.cli
+
+Note: Printing  a graphical representation of  the FSM (command "print  gfsm" at
+the CLI  prompt) will also  try to immediately open  the created SVG  file. This
+will only work when run locally and not inside of a docker container.
+
+Based on the given  transitions internally an FSM (a graph)  is built. Start and
+end states are detected by initially  assuming every new state is actually both.
+If the new state is  the source of the transition it is based  on, it can not be
+an end  state, if it is  the destination it can  not be a start  state. Any node
+never entered  through a  transition will  remain a start  state, as  will nodes
+never left remain end states.
+
+A valid FSM must have exactly one start state and one or more end states, YMMV.
 
 Data must  be given in YAML  files with 'transitions' and  'issues' as top-level
 keys which can be given in separate files  or combined in a single file. See the
