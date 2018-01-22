@@ -10,3 +10,4 @@ test:
 clean:
 	find . -name '__pycache__' | xargs rm -rf
 	find . -name '*pyc' | xargs rm -f
+	rm -f FSM.gv FSM.gv.svg
