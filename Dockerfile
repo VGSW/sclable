@@ -6,7 +6,11 @@ RUN apk update \
  && apk add \
     python3 \
     py3-yaml \
-    py3-prompt_toolkit
+    py3-prompt_toolkit \
+    graphviz \
+    xdg-utils
+
+RUN pip3 install graphviz
 
 RUN mkdir /root/coffee
 COPY coffee/ /root/coffee/

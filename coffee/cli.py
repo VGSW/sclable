@@ -10,6 +10,7 @@ import os
 import re
 
 from coffee.coffee import Issue, Transition, FSM
+from coffee.graph import graph
 
 
 class CLI ():
@@ -68,6 +69,14 @@ class CLI ():
         print ()
 
 
+    def print_graph (self, **kwa):
+        graph (
+            fsm          = self.fsm,
+            source_files = sorted (self.loaded_from),
+            output_file  = kwa.get ('output_file'),
+            view         = True,
+        )
+
     def load (self, **kwa):
         filename = kwa.get ('filename')
 
@@ -97,13 +106,14 @@ class CLI ():
 
     def usage (self):
         print ('\nAvailable commands')
-        print ('  load <filename> ... load the given yaml file')
-        print ('  !<command> ........ run <command> in a shell')
-        print ('  print ............. print loaded data')
-        print ('  print fsm ......... print the FSM only')
-        print ('  clear ............. clear data')
-        print ('  quit .............. quit')
-        print ('  help .............. you\'re reading it, HTH\n')
+        print ('  load <filename> ......... load the given yaml file')
+        print ('  !<command> .............. run <command> in a shell')
+        print ('  print ................... print loaded data')
+        print ('  print fsm ............... print the FSM only (ASCII)')
+        print ('  print gfsm <filename> ... print the FSM only (SVG)')
+        print ('  clear ................... clear data')
+        print ('  quit .................... quit')
+        print ('  help .................... you\'re reading it, HTH\n')
 
 
     def clear (self):
@@ -156,21 +166,25 @@ class CLI ():
                     cmd[1:].split(),
                     stdout = subprocess.PIPE,
                 ).stdout.decode())
-            elif cmd == 'print':
-                if self.fsm and self.issues:
+            elif re.search ('^print.*', cmd):
+                if not self.fsm:
+                    print ('ERROR: Please load an FSM\n')
+                    self.lives -= 1
+                    continue
+                if len(cmd) == 5:
+                    if not self.issues:
+                        print ('ERROR: Please load issues\n')
+                        self.lives -= 1
+                        continue
                     self.print_all (fsm = self.fsm, issues = self.issues)
-                elif not self.fsm:
-                    print ('ERROR: Please load an FSM\n')
-                    self.lives -= 1
-                elif not self.issues:
-                    print ('ERROR: Please load issues\n')
-                    self.lives -= 1
-            elif cmd == 'print fsm':
-                if self.fsm:
-                    self.print_fsm (fsm = self.fsm)
                 else:
-                    print ('ERROR: Please load an FSM\n')
-                    self.lives -= 1
+                    if cmd[6:] == 'fsm':
+                        self.print_fsm (fsm = self.fsm)
+                    elif cmd[6:] == 'gfsm':
+                        if len (cmd) == 10:
+                            self.print_graph (fsm = self.fsm)
+                        else:
+                            self.print_graph (fsm = self.fsm, output_file = cmd[12:])
             elif cmd == 'clear':
                 self.clear()
             elif cmd == 'quit':
