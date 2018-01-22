@@ -10,10 +10,11 @@ Alternatively the command line interface  can be executed directly too:
 
     python -m coffee.cli
 
-Note: Printing  a graphical representation of  the FSM (command "print  gfsm" at
-the CLI  prompt) will also  try to immediately open  the created SVG  file. This
-will only work when  run locally and not inside of a  docker container. (Dot and
-SVG output will be written to the files FSM.gv and FSM.gv.svg in any case.)
+Note: Drawing an SVG of the FSM (command "print fsm-svg" at the CLI prompt) will
+also try to immediately open the  created SVG file, while "print fsm-ascii" will
+print to the console. Immediately opening an  SVG can only work when run locally
+and not inside of a docker container. (Dot and SVG output will be written to the
+files FSM.gv and FSM.gv.svg in any case.)
 
 Based on the given  transitions internally an FSM (a graph)  is built. Start and
 end states are detected by initially  assuming every new state is actually both.
