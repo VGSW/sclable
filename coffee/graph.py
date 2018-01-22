@@ -1,11 +1,15 @@
 from graphviz import Digraph
 import tempfile
+import subprocess
 
 from coffee.coffee import FSM
 
 def graph (**kwa):
     fsm  = kwa.get ('fsm')
-    view = kwa.get ('view') or False
+    fmt  = kwa.get ('fmt')
+
+    if fmt not in 'svg ascii'.split():
+        raise RuntimeWarning ('invalid format: <{}>'.format (fmt))
 
     g = Digraph ('FSM', format  = 'svg')
     g.attr (rankdir = 'LR')
@@ -18,4 +22,11 @@ def graph (**kwa):
         for edge in node.events:
             g.edge (node.name, edge.next_state.name)
 
-    g.render (view = view)
+    if fmt == 'svg':
+        g.render (view = True)
+    elif fmt == 'ascii':
+        g.render (view = False)
+        print (subprocess.run (
+            'graph-easy FSM.gv'.split(),
+            stdout = subprocess.PIPE,
+        ).stdout.decode())

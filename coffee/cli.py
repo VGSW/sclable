@@ -69,16 +69,17 @@ class CLI ():
         print ()
 
 
-    def print_gfsm (self, **kwa):
+    def draw_fsm (self, **kwa):
         try:
             graph (
                 fsm          = self.fsm,
                 source_files = sorted (self.loaded_from),
                 output_file  = kwa.get ('output_file'),
-                view         = True,
+                fmt          = kwa.get ('fmt'),
             )
         except Exception as e:
             print ('ERROR: {}'.format (e))
+
 
     def load (self, **kwa):
         filename = kwa.get ('filename')
@@ -112,8 +113,9 @@ class CLI ():
         print ('  load <filename> ..... load the given yaml file')
         print ('  !<command> .......... run <command> in a shell')
         print ('  print ............... print loaded data')
-        print ('  print fsm ........... print the FSM only (ASCII)')
-        print ('  print gfsm .......... print the FSM only (SVG)')
+        print ('  print fsm ........... print the FSM only')
+        print ('  print fsm-svg ....... draw the FSM (SVG)')
+        print ('  print fsm-ascii ..... draw the FSM (ASCII)')
         print ('  clear ............... clear data')
         print ('  quit ................ quit')
         print ('  help ................ you\'re reading it, HTH\n')
@@ -183,8 +185,16 @@ class CLI ():
                 else:
                     if cmd == 'print fsm':
                         self.print_fsm (fsm = self.fsm)
-                    elif cmd == 'print gfsm':
-                        self.print_gfsm (fsm = self.fsm)
+                    elif cmd == 'print fsm-svg':
+                        self.draw_fsm (
+                            fsm = self.fsm,
+                            fmt = 'svg',
+                        )
+                    elif cmd == 'print fsm-ascii':
+                        self.draw_fsm (
+                            fsm = self.fsm,
+                            fmt = 'ascii',
+                        )
                     else:
                         print ('ERROR: invalid command, try again :-)\n')
                         self.lives -= 1
