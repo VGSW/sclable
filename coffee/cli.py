@@ -109,14 +109,14 @@ class CLI ():
 
     def usage (self):
         print ('\nAvailable commands')
-        print ('  load <filename> ......... load the given yaml file')
-        print ('  !<command> .............. run <command> in a shell')
-        print ('  print ................... print loaded data')
-        print ('  print fsm ............... print the FSM only (ASCII)')
-        print ('  print gfsm [filename] ... print the FSM only (SVG)')
-        print ('  clear ................... clear data')
-        print ('  quit .................... quit')
-        print ('  help .................... you\'re reading it, HTH\n')
+        print ('  load <filename> ..... load the given yaml file')
+        print ('  !<command> .......... run <command> in a shell')
+        print ('  print ............... print loaded data')
+        print ('  print fsm ........... print the FSM only (ASCII)')
+        print ('  print gfsm [name] ... print the FSM only (SVG)')
+        print ('  clear ............... clear data')
+        print ('  quit ................ quit')
+        print ('  help ................ you\'re reading it, HTH\n')
 
 
     def clear (self):
@@ -183,10 +183,12 @@ class CLI ():
                 else:
                     if cmd == 'print fsm':
                         self.print_fsm (fsm = self.fsm)
-                    if cmd == 'print gfsm':
+                    elif cmd == 'print gfsm':
                         self.print_gfsm (fsm = self.fsm)
-                    elif re.search ('^print gfsm .+', cmd):
-                        self.print_gfsm (fsm = self.fsm, output_file = cmd[11:])
+                    else:
+                        print ('ERROR: invalid command, try again :-)\n')
+                        self.lives -= 1
+                        self.usage()
             elif cmd == 'clear':
                 self.clear()
             elif cmd == 'quit':
