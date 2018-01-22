@@ -70,12 +70,15 @@ class CLI ():
 
 
     def print_gfsm (self, **kwa):
-        graph (
-            fsm          = self.fsm,
-            source_files = sorted (self.loaded_from),
-            output_file  = kwa.get ('output_file'),
-            view         = True,
-        )
+        try:
+            graph (
+                fsm          = self.fsm,
+                source_files = sorted (self.loaded_from),
+                output_file  = kwa.get ('output_file'),
+                view         = True,
+            )
+        except Exception as e:
+            print ('ERROR: {}'.format (e))
 
     def load (self, **kwa):
         filename = kwa.get ('filename')
@@ -171,20 +174,19 @@ class CLI ():
                     print ('ERROR: Please load an FSM\n')
                     self.lives -= 1
                     continue
-                if len(cmd) == 5:
+                if cmd == 'print':
                     if not self.issues:
                         print ('ERROR: Please load issues\n')
                         self.lives -= 1
                         continue
                     self.print_all (fsm = self.fsm, issues = self.issues)
                 else:
-                    if cmd[6:] == 'fsm':
+                    if cmd == 'print fsm':
                         self.print_fsm (fsm = self.fsm)
-                    elif cmd[6:] == 'gfsm':
-                        if len (cmd) == 10:
-                            self.print_gfsm (fsm = self.fsm)
-                        else:
-                            self.print_gfsm (fsm = self.fsm, output_file = cmd[12:])
+                    if cmd == 'print gfsm':
+                        self.print_gfsm (fsm = self.fsm)
+                    elif re.search ('^print gfsm .+', cmd):
+                        self.print_gfsm (fsm = self.fsm, output_file = cmd[11:])
             elif cmd == 'clear':
                 self.clear()
             elif cmd == 'quit':
