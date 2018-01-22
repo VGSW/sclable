@@ -113,7 +113,7 @@ class CLI ():
         print ('  !<command> .......... run <command> in a shell')
         print ('  print ............... print loaded data')
         print ('  print fsm ........... print the FSM only (ASCII)')
-        print ('  print gfsm [name] ... print the FSM only (SVG)')
+        print ('  print gfsm .......... print the FSM only (SVG)')
         print ('  clear ............... clear data')
         print ('  quit ................ quit')
         print ('  help ................ you\'re reading it, HTH\n')
