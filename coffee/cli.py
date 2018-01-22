@@ -69,7 +69,7 @@ class CLI ():
         print ()
 
 
-    def print_graph (self, **kwa):
+    def print_gfsm (self, **kwa):
         graph (
             fsm          = self.fsm,
             source_files = sorted (self.loaded_from),
@@ -182,9 +182,9 @@ class CLI ():
                         self.print_fsm (fsm = self.fsm)
                     elif cmd[6:] == 'gfsm':
                         if len (cmd) == 10:
-                            self.print_graph (fsm = self.fsm)
+                            self.print_gfsm (fsm = self.fsm)
                         else:
-                            self.print_graph (fsm = self.fsm, output_file = cmd[12:])
+                            self.print_gfsm (fsm = self.fsm, output_file = cmd[12:])
             elif cmd == 'clear':
                 self.clear()
             elif cmd == 'quit':
