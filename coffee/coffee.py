@@ -171,13 +171,13 @@ class FSM ():
         for t in kwa.get ('transitions'):
             to_state, frm_state = None, None
 
-            if any (filter (lambda s: s.name == t.to, self.states)):
+            if any (s for s in self.states if s.name == t.to):
                 to_state = [s for s in self.states if s.name == t.to].pop()
             else:
                 to_state = State (name = t.to)
                 self.states.append (to_state)
 
-            if any (filter (lambda s: s.name == t.frm, self.states)):
+            if any (s for s in self.states if s.name == t.frm):
                 frm_state = [s for s in self.states if s.name == t.frm].pop()
             else:
                 frm_state = State (name = t.frm)

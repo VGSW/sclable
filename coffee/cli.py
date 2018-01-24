@@ -155,7 +155,7 @@ class CLI ():
                     is_start = ' (S)' if state.is_start else '',
                     is_end = ' (E)' if state.is_end else '',
                 ))
-                for issue in list (filter (lambda i: i.state == state.name, self.issues)):
+                for issue in (i for i in self.issues if i.state == state.name):
                     print ('    (-) {}'.format (issue.title))
 
             print ()
