@@ -82,7 +82,6 @@ class CLI ():
 
             except Exception as e:
                 print ('ERROR: invalid command, try again: {}\n'.format (e))
-                raise e
                 self.lives -= 1
                 self.usage()
 
