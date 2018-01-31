@@ -8,6 +8,5 @@ test:
 	nosetests coffee/tests/
 
 clean:
-	find . -name '__pycache__' | xargs rm -rf
-	find . -name '*pyc' | xargs rm -f
+	find . -name '__pycache__' -o -name '*pyc' | xargs rm -rf
 	rm -f FSM.gv FSM.gv.svg
