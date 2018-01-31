@@ -192,14 +192,11 @@ class FSM ():
         """
 
         for t in kwa.get ('transitions'):
-            to_state, frm_state = None, None
-
-            to_state = self.create_or_fetch_state (t.to)
+            to_state  = self.create_or_fetch_state (t.to)
+            frm_state = self.create_or_fetch_state (t.frm)
 
             if not self.known_state (t.to):
                   self.states.append (to_state)
-
-            frm_state = self.create_or_fetch_state (t.frm)
 
             if not self.known_state (t.frm):
                   self.states.append (frm_state)
