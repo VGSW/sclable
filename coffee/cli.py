@@ -181,10 +181,24 @@ class CLI ():
                 fsm, issues = None, None
                 inputs = yaml.load (ymlfile)
 
+                # * load transitions and issues independently from each other
+                # * info if only transitions are loaded (`print` won't print
+                #   anything without an FSM)
+                # * sanity-check: warn if loaded issues and FSM match - if any
+                #   issues are in a known state
+
                 if type (inputs) != dict:
                     raise RuntimeWarning ('can\'t load data')
 
+                if inputs.get ('transitions'):
+                    print ('INFO: loading transitions into FSM')
+
+                    self.fsm = FSM (transitions = inputs.get ('transitions'))
+                    loaded_ok = True
+
                 if inputs.get ('issues'):
+                    print ('INFO: loading issues')
+
                     self.issues = [
                         Issue (
                             title = issue.get ('title'),
@@ -194,9 +208,15 @@ class CLI ():
                     ]
                     loaded_ok = True
 
-                if inputs.get ('transitions'):
-                    self.fsm = FSM (transitions = inputs.get ('transitions'))
-                    loaded_ok = True
+                    if not self.fsm:
+                        print ('INFO: no FSM loaded yet (won\'t print anything without)')
+
+                if (        self.issues
+                    and     self.fsm
+                    # sanity check: are there (any) issues matching the loaded FSM ?
+                    and not len ([i for state in self.fsm.workflow() for i in self.issues if i.state == state.name])
+                ):
+                        print ('WARNING: loaded issues do not lign up with loaded FSM')
 
                 if loaded_ok:
                     self.loaded_from.append (filename)
@@ -206,6 +226,7 @@ class CLI ():
         except Exception as w:
             print ('ERROR: invalid data: <{}>\n'.format (w))
             self.lives -= 1
+            raise w
 
 
     def usage (self):
