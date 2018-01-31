@@ -53,6 +53,11 @@ class CLI ():
                 style = style_from_dict ({ Token.Toolbar: '#ffffff bg:#333333' }),
             )
 
+            if not cmd:
+                print ('ERROR: empty command, try again\n')
+                self.lives -= 1
+                continue
+
             result = (prog.match (cmd))
 
             #  print ('cmd: {}'.format(cmd))
@@ -63,6 +68,7 @@ class CLI ():
 
             if not len (command):
                 print ('ERROR: invalid command, try again\n')
+                self.lives -= 1
                 continue
 
             try:
