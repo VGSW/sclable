@@ -35,6 +35,17 @@ class CLI ():
             dict (command = 'oneup',           description = '',                         handler = self.oneup,      hidden = True),
         ]
 
+    def next_command (self):
+        cmd = prompt (
+            '>> ',
+            completer = WordCompleter ('load print clear quit help fsm fsm-ascii fsm fsm-svg'.split()),
+            history = self.history,
+            auto_suggest = AutoSuggestFromHistory(),
+            get_bottom_toolbar_tokens = self.get_bottom_toolbar_tokens,
+            style = style_from_dict ({ Token.Toolbar: '#ffffff bg:#333333' }),
+        )
+
+        return cmd
 
     def start (self):
         self.usage ()
@@ -43,14 +54,7 @@ class CLI ():
         prog = re.compile ('^(?P<command>[\w!]+)( (?P<param>[\w./-]+)){0,1}')
 
         while self.lives:
-            cmd = prompt (
-                '>> ',
-                completer = WordCompleter ('load print clear quit help fsm fsm-ascii fsm fsm-svg'.split()),
-                history = self.history,
-                auto_suggest = AutoSuggestFromHistory(),
-                get_bottom_toolbar_tokens = self.get_bottom_toolbar_tokens,
-                style = style_from_dict ({ Token.Toolbar: '#ffffff bg:#333333' }),
-            )
+            cmd = self.next_command()
 
             if not cmd:
                 print ('ERROR: empty command, try again\n')
