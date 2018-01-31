@@ -171,6 +171,18 @@ class CLI ():
             print ('(E) ... state is an end state')
             print ()
 
+    def crosscheck_fsm_issues (self):
+        ok = True
+
+        if (        self.issues
+            and     self.fsm
+            # sanity check: are there (any) issues matching the loaded FSM ?
+            and not len ([i for state in self.fsm.workflow() for i in self.issues if i.state == state.name])
+        ):
+            ok = False
+
+        return ok
+
 
     def load (self, filename):
         if not filename or not os.path.isfile (filename):
@@ -215,12 +227,8 @@ class CLI ():
                     if not self.fsm:
                         print ('INFO: no FSM loaded yet (won\'t print anything without)')
 
-                if (        self.issues
-                    and     self.fsm
-                    # sanity check: are there (any) issues matching the loaded FSM ?
-                    and not len ([i for state in self.fsm.workflow() for i in self.issues if i.state == state.name])
-                ):
-                        print ('WARNING: loaded issues do not lign up with loaded FSM')
+                if not self.crosscheck_fsm_issues():
+                    print ('WARNING: loaded issues do not lign up with loaded FSM')
 
                 if loaded_ok:
                     self.loaded_from.append (filename)
