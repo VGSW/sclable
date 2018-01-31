@@ -217,9 +217,12 @@ class FSM ():
             and alphabetically for alternative paths
         """
 
+        # ISA pure function
         def _wf (state, states = []):
+            # keep this state
             states.append (state)
 
+            # recursively process any yet unknown next_states
             for event in sorted (state.events, key = lambda e: e.next_state.name):
                 if event.next_state not in states:
                     _wf (event.next_state, states)
