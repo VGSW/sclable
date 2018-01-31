@@ -32,6 +32,7 @@ class CLI ():
             dict (command = 'clear',           description = 'clear data',               handler = self.clear),
             dict (command = 'quit',            description = 'quit',                     handler = self.quit),
             dict (command = 'help',            description = 'you\'re reading it, HTH',  handler = self.usage),
+            dict (command = 'oneup',           description = '',                         handler = self.oneup,      hidden = True),
         ]
 
 
@@ -244,7 +245,7 @@ class CLI ():
                 command     = c.get ('usage') or c.get ('command'),
                 description = ' {}'.format (c.get ('description')),
             )
-            for c in self.commands
+            for c in self.commands if not c.get ('hidden')
         ])
 
         print ('\n{}\n'.format (usage))
