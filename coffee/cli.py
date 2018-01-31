@@ -163,6 +163,7 @@ class CLI ():
                     is_start = ' (S)' if state.is_start else '',
                     is_end = ' (E)' if state.is_end else '',
                 ))
+                # simply find issues currently in this state
                 for issue in (i for i in self.issues if i.state == state.name):
                     print ('    (-) {}'.format (issue.title))
 
