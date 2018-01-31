@@ -159,6 +159,29 @@ class FSM ():
             for t in kwa.get ('transitions')
         ])
 
+
+    def known_state (self, state_name):
+        # IN:  state-name
+        # OUT: True if corresponding state exists
+        #      False otherwise
+        return any (s for s in self.states if s.name == state_name)
+
+    def fetch_state (self, state_name):
+        # IN:  state-name
+        # OUT: corresponding, known state object
+        if not self.known_state (state_name):
+            raise LookupError ('can not fetch unknown state')
+
+        return [s for s in self.states if s.name == state_name].pop()
+
+    def create_or_fetch_state (self, state_name):
+        return self.known_state (state_name) and self.fetch_state (state_name) or State (name = state_name)
+
+    def fetch_start_state (self):
+        # OUT: (first) start state, actually, only one start state is allowed
+        # XXX run _check_fsm() here too ?
+        return [s for s in self.states if s.is_start].pop()
+
     def _build_fsm (self, **kwa):
         """ build the FSM based on given transitions
             start/end states are detected. basically any new state
@@ -171,17 +194,15 @@ class FSM ():
         for t in kwa.get ('transitions'):
             to_state, frm_state = None, None
 
-            if any (s for s in self.states if s.name == t.to):
-                to_state = [s for s in self.states if s.name == t.to].pop()
-            else:
-                to_state = State (name = t.to)
-                self.states.append (to_state)
+            to_state = self.create_or_fetch_state (t.to)
 
-            if any (s for s in self.states if s.name == t.frm):
-                frm_state = [s for s in self.states if s.name == t.frm].pop()
-            else:
-                frm_state = State (name = t.frm)
-                self.states.append (frm_state)
+            if not self.known_state (t.to):
+                  self.states.append (to_state)
+
+            frm_state = self.create_or_fetch_state (t.frm)
+
+            if not self.known_state (t.frm):
+                  self.states.append (frm_state)
 
             to_state.is_start = False
             frm_state.is_end = False
@@ -211,11 +232,9 @@ class FSM ():
         if not self.states:
             raise RuntimeWarning ('no states')
 
-        start_states = [s for s in self.states if s.is_start]
-
         self._check_fsm ()
 
-        return _wf (start_states.pop())
+        return _wf (self.fetch_start_state())
 
 
     @property
