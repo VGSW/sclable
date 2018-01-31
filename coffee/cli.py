@@ -34,8 +34,6 @@ class CLI ():
             dict (command = 'help',            description = 'you\'re reading it, HTH',  handler = self.usage),
         ]
 
-        self.start()
-
 
     def start (self):
         self.usage ()
