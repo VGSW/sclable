@@ -22,6 +22,7 @@ def graph (**kwa):
         for edge in node.events:
             g.edge (node.name, edge.next_state.name)
 
+    # how to overengineer: strategy pattern :-)
     if fmt == 'svg':
         g.render (view = True)
     elif fmt == 'ascii':

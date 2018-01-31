@@ -19,3 +19,5 @@ document supposed input file structure
 - or, just a thought, how about prolog ? querying big datasets could be interesting.
 
 - test ```coffee.CLI``` (so far there's just a very basic smoke test instantiating a ```CLI``` object)
+
+- at some point: encapsulate issues handling (as transitions are in FSM)
